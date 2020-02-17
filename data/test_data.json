@@ -1,0 +1,28 @@
+{
+  "games": [
+    {
+      "title": "Chip's Challenge",
+      "platform": {
+          "launch year": 1989,
+          "name": "Atari Lynx"
+      },
+      "year": 1989
+    },
+    {
+      "title": "Chip's Challenge 2",
+      "platform": {
+          "launch year": 2003,
+          "name": "Steam"
+      },
+      "year": 2015
+    },
+    {
+      "title": "Grand Theft Auto V",
+      "platform": {
+          "launch year": 2003,
+          "name": "Steam"
+      },
+      "year": 2013
+    }
+  ]
+}
