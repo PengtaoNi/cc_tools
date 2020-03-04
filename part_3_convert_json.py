@@ -12,27 +12,27 @@ def make_level_pack_form_json(json_data):
 
     for json_level in json_data["levels"]:
         level = cc_classes.CCLevel()
-        level.level_number = json_level["level_number"]
+        level.level_number = json_level["level_number"]+1
         level.time = json_level["time"]
-        level.num_chips = json_level["num_chips"]
+        level.num_chips = json_level["chip_number"]
         level.upper_layer = json_level["upper_layer"]
 
-        for json_field in json_level["optional_fields"]:
-            field_type = json_field["field_type"]
-            if field_type == "title":
-                title_field = cc_classes.CCMapTitleField(json_field["title"])
+        fields = json_level["optional_fields"]
+        for field in fields:
+            if field == "map title":
+                title_field = cc_classes.CCMapTitleField(fields[field])
                 level.add_field(title_field)
-            elif field_type == "pw":
-                pw_field = cc_classes.CCEncodedPasswordField(json_field["pw"])
+            elif field == "encoded password":
+                pw_field = cc_classes.CCEncodedPasswordField(fields[field])
                 level.add_field(pw_field)
-            elif field_type == "hint":
-                hint_field = cc_classes.CCMapHintField(json_field["hint"])
+            elif field == "hint text":
+                hint_field = cc_classes.CCMapHintField(fields[field])
                 level.add_field(hint_field)
-            elif field_type == "monster":
+            elif field == "moving objects":
                 monsters = []
-                for json_monster in json_field["monsters"]:
-                    x = json_monster["x"]
-                    y = json_monster["y"]
+                for json_monster in fields[field]:
+                    x = json_monster[0]
+                    y = json_monster[1]
                     monster_coord = cc_classes.CCCoordinate(x, y)
                     monsters.append(monster_coord)
                 monster_field = cc_classes.CCMonsterMovementField(monsters)
@@ -42,9 +42,10 @@ def make_level_pack_form_json(json_data):
 
     return level_pack
 
-with open("data/pni_cc1.json", "r") as reader:
+# with open("data/pni_cc1.json", "r") as reader:
+with open("data/pni_cc_level_data.json", "r") as reader:
     json_data = json.load(reader)
     level_pack = make_level_pack_form_json(json_data)
     print(level_pack)
 
-cc_dat_utils.write_cc_level_pack_to_dat(level_pack, "data/pni_cc1.dat")
+cc_dat_utils.write_cc_level_pack_to_dat(level_pack, "data/pni_cc_level_data.dat")
